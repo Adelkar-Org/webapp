@@ -1,0 +1,37 @@
+{
+  "name": "webapp",
+  "version": "1.0.0",
+  "description": "Cloud Native Web Application",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Adelkar-Org/webapp.git"
+  },
+  "keywords": [
+    "cloud",
+    "webapp"
+  ],
+  "author": "mihiradelkar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Adelkar-Org/webapp/issues"
+  },
+  "homepage": "https://github.com/Adelkar-Org/webapp#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2",
+    "mysql2": "^3.9.1",
+    "sequelize": "^6.36.0",
+    "swagger-ui-express": "^5.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4"
+  }
+}
