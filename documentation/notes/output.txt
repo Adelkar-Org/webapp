@@ -1,0 +1,62 @@
+C:\Users\mihir>curl -vvvv http://localhost:8080/healthz
+*   Trying [::1]:8080...
+* Connected to localhost (::1) port 8080
+> GET /healthz HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/8.4.0
+> Accept: */*
+>
+< HTTP/1.1 200 OK
+< X-Powered-By: Express
+< Access-Control-Allow-Origin: *
+< X-Content-Type-Options: nosniff
+< Cache-Control: no-cache, no-store, must-revalidate
+< Pragma: no-cache
+< Date: Thu, 01 Feb 2024 00:23:58 GMT
+< Connection: keep-alive
+< Keep-Alive: timeout=5
+< Content-Length: 0
+<
+* Connection #0 to host localhost left intact
+
+C:\Users\mihir>curl -vvvv http://localhost:8080/healthz
+*   Trying [::1]:8080...
+* Connected to localhost (::1) port 8080
+> GET /healthz HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/8.4.0
+> Accept: */*
+>
+< HTTP/1.1 503 Service Unavailable
+< X-Powered-By: Express
+< Access-Control-Allow-Origin: *
+< X-Content-Type-Options: nosniff
+< Cache-Control: no-cache, no-store, must-revalidate
+< Pragma: no-cache
+< Date: Thu, 01 Feb 2024 00:24:34 GMT
+< Connection: keep-alive
+< Keep-Alive: timeout=5
+< Content-Length: 0
+<
+* Connection #0 to host localhost left intact
+
+C:\Users\mihir>curl -vvvv -XPUT http://localhost:8080/healthz
+*   Trying [::1]:8080...
+* Connected to localhost (::1) port 8080
+> PUT /healthz HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/8.4.0
+> Accept: */*
+>
+< HTTP/1.1 405 Method Not Allowed
+< X-Powered-By: Express
+< Access-Control-Allow-Origin: *
+< X-Content-Type-Options: nosniff
+< Cache-Control: no-cache, no-store, must-revalidate
+< Pragma: no-cache
+< Date: Thu, 01 Feb 2024 00:24:44 GMT
+< Connection: keep-alive
+< Keep-Alive: timeout=5
+< Content-Length: 0
+<
+* Connection #0 to host localhost left intact
