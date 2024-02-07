@@ -7,7 +7,7 @@ on:
       - developement
 
 jobs:
-  build:
+  connect-remote:
     runs-on: ubuntu-latest
 
     steps:
