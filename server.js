@@ -16,7 +16,7 @@ async function startServer() {
 
     app.listen(config.app.port, () => {
       console.log(
-        `Server listening at http://localhost:${config.app.port}/healthz`
+        `Server listening at http://localhost:${config.app.port}/healthz test`
       );
     });
   } catch (error) {
