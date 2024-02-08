@@ -25,7 +25,7 @@ jobs:
       #   run: npm test
 
       # - name: Run fail tests
-      #   run: npm fail-test
+      #   run: npm run fail-test
 
       - name: Run pass tests
-        run: npm pass-test
+        run: npm run pass-test
