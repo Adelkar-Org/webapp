@@ -1,19 +1,40 @@
-const authService = require("../services/auth.service");
 const userService = require("../services/user.service");
 
 async function createUser(req, res) {
   const { first_name, last_name, password, username } = req.body;
   try {
+    if (!first_name || typeof first_name !== "string")
+      return res.status(400).json({ message: "Invalid first name" });
+    if (!last_name || typeof last_name !== "string")
+      return res.status(400).json({ message: "Invalid last name" });
+    if (!password || typeof password !== "string" || password.length < 8)
+      return res.status(400).json({ message: "Invalid password" });
+    if (
+      !username ||
+      typeof username !== "string" ||
+      !/^[a-zA-Z0-9@.]+$/.test(username)
+    )
+      return res
+        .status(400)
+        .json({ message: "Invalid username. Enter proper email id" });
+
+    // check if user already exists
+    const userExists = await userService.getUserByEmail(username);
+    if (userExists)
+      return res.status(400).json({ message: "User already exists" });
+
     const user = await userService.createUser(
       first_name,
       last_name,
       password,
       username
     );
-    res.status(201).send(user);
+    if (!user)
+      return res.status(400).json({ message: "Invalid Request", user });
+    res.status(201).json(user);
   } catch (error) {
     console.error("createUser: ", error);
-    res.status(500).send();
+    res.status(500).json({ message: "Internal server error" });
   }
 }
 
@@ -21,10 +42,11 @@ async function getSelfUser(req, res) {
   const { email } = req.user;
   try {
     const user = await userService.getUserByEmail(email);
-    res.status(200).send(user);
+    if (!user) return res.status(400).json({ message: "Invalid Request" });
+    res.status(200).json(user);
   } catch (error) {
     console.error("getSelfUser: ", error);
-    res.status(500).send();
+    res.status(500).json({ message: "Internal server error" });
   }
 }
 
@@ -32,16 +54,19 @@ async function updateSelfUser(req, res) {
   const { email } = req.user;
   const { first_name, last_name, password } = req.body;
   try {
+    if (!first_name && !last_name && !password)
+      return res.status(400).json({ message: "Bad Request" });
     const user = await userService.updateUser(
       email,
       first_name,
       last_name,
       password
     );
-    res.status(200).send(user);
+    if (!user) return res.status(400).json({ message: "Invalid Request" });
+    res.status(204).json();
   } catch (error) {
     console.error("updateSelfUser: ", error);
-    res.status(500).send();
+    res.status(500).json({ message: "Internal server error" });
   }
 }
 

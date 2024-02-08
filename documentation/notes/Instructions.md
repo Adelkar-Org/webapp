@@ -24,3 +24,16 @@ GRANT ALL ON mydb.* TO 'local_user'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 SELECT * FROM mysql.user;
 -- DROP USER 'local_user'@'localhost';
+
+
+
+create feature branch
+make code changes
+git add .
+git commit -m "commit message"
+git push
+raise a PR from fork to org
+delete feature branch
+sync fork main
+
+test workflow
