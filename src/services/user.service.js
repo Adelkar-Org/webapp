@@ -32,16 +32,15 @@ async function getUserByEmail(email) {
 
 async function updateUser(email, first_name, last_name, password) {
   try {
-    const user = await UserModel.findOne({
-      where: { email },
-      attributes: { exclude: ["password"] },
-    });
+    const user = await UserModel.findOne({ where: { email } });
     if (user) {
       user.first_name = first_name ?? user.first_name;
       user.last_name = last_name ?? user.last_name;
       user.password = password ?? user.password;
       await user.save();
-      return user;
+      const userJSON = user.toJSON();
+      delete userJSON.password;
+      return userJSON;
     } else {
       throw new Error("User not found");
     }
