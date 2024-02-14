@@ -13,7 +13,7 @@ describe("/v1/user endpoint integration tests", () => {
 
   beforeEach(async () => {
     // Wait for 10 seconds before each test
-    await new Promise((resolve) => setTimeout(resolve, 10000));
+    await new Promise((resolve) => setTimeout(resolve, 9000));
   });
 
   test("Test 1 - Create an account", async () => {
