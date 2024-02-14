@@ -1,7 +1,9 @@
 const dotenv = require("dotenv");
 
+const env = process.env.NODE_ENV || "development";
+
 dotenv.config(
-  process.env.NODE_ENV === "production"
+  env === "production"
     ? { path: ".env.production" }
     : { path: ".env.development" }
 );
@@ -47,6 +49,6 @@ const config = {
   },
 };
 
-const selectedConfig = config[process.env.NODE_ENV || "development"];
+const selectedConfig = config[env] ? config[env] : config.development;
 
 module.exports = selectedConfig;
