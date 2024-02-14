@@ -11,6 +11,11 @@ describe("/v1/user endpoint integration tests", () => {
     username: "mihir.adelkar@gmail.com",
   };
 
+  beforeAll(async () => {
+    // Wait for 10 seconds before starting the tests
+    await new Promise((resolve) => setTimeout(resolve, 10000));
+  }, 12000); // Increase the timeout to 15 seconds
+
   test("Test 1 - Create an account", async () => {
     const response = await request(app)
       .post(`/v1/user`)
