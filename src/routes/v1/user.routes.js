@@ -6,8 +6,9 @@ const router = Router();
 
 router.post("/", userController.createUser);
 
-router.get("/self", authHandler, userController.getSelfUser);
-
-router.put("/self", authHandler, userController.updateSelfUser);
+router
+  .route("/self")
+  .get(authHandler, userController.getSelfUser)
+  .put(authHandler, userController.updateSelfUser);
 
 module.exports = router;

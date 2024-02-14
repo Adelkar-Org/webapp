@@ -7,8 +7,10 @@ on:
       - development
 
 jobs:
-  build-and-test-app:
+  build:
+    name: Node.js Integration Test
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2

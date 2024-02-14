@@ -2,12 +2,17 @@ const config = require("../configs/config.js");
 
 // global error handler
 const errorHandler = (err, req, res, next) => {
-  console.error(err.stack);
+  // Log the error
+  if (config.app.environment !== "production") {
+    console.error("Error: ", err.message);
+    console.error("Stack: ", err.stack);
+  } else {
+    console.error("Error: ", err.message); // Log minimal error info in production
+  }
 
   // Error format
   const errorResponse = {
-    success: false,
-    message: err.message || "Internal Server Error",
+    error: err.message || "Internal Server Error",
     ...(config.app.enviornment === "development" && { stack: err.stack }), // stack trace in development only
   };
 
