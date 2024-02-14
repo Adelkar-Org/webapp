@@ -8,7 +8,6 @@ async function startServer() {
   const app = initialize();
 
   // Error handler
-  app.use(errorHandler);
 
   // Start server
   try {
@@ -22,6 +21,7 @@ async function startServer() {
   } catch (error) {
     console.error("An error occurred:", error);
   }
+  app.use(errorHandler);
 }
 
 startServer();
