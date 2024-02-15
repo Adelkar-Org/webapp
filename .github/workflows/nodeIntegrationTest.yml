@@ -27,7 +27,7 @@ jobs:
 
       - name: Create MySQL Database
         run: |
-          sudo mysql -e "CREATE DATABASE IF NOT EXISTS mydb;" --user=root --password=root
+          sudo mysql --user=root --password=root | CREATE DATABASE IF NOT EXISTS ${{ secrets.DB_NAME }}
 
       - name: Install dependencies
         run: npm install
