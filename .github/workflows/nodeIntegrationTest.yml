@@ -29,11 +29,11 @@ jobs:
         run: sudo service mysql start
 
       - name: Access MySQL
-        run: sudo mysql --user=root --password=root -e "SHOW DATABASES;"
+        run: sudo mysql --user=${{secrets.DB_USER}} --password=${{secrets.DB_PASSWORD}} -e "SHOW DATABASES;"
 
       - name: Create a database
         run: |
-          sudo mysql --user=root --password=root -e "CREATE DATABASE IF NOT EXISTS mydb;"
+          sudo mysql --user=${{secrets.DB_USER}} --password=${{secrets.DB_PASSWORD}} -e "CREATE DATABASE IF NOT EXISTS ${{ secrets.DB_NAME }};"
 
       - name: Install dependencies
         run: npm install
