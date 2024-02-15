@@ -25,9 +25,15 @@ jobs:
           sudo apt-get update
           mysql --version
 
-      - name: Create MySQL Database
+      - name: Start MySQL service
+        run: sudo service mysql start
+
+      - name: Access MySQL
+        run: sudo mysql --user=root --password=root -e "SHOW DATABASES;"
+
+      - name: Create a database
         run: |
-          sudo mysql --user=root --password=root | CREATE DATABASE IF NOT EXISTS ${{ secrets.DB_NAME }}
+          sudo mysql --user=root --password=root -e "CREATE DATABASE IF NOT EXISTS mydb;"
 
       - name: Install dependencies
         run: npm install
