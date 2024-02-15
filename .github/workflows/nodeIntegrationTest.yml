@@ -1,4 +1,4 @@
-name: Node Integration Test
+name: MySQL Integration Test
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   integration-tests:
-    name: Integration Tests
+    name: MySQL Integration Tests
     runs-on: ubuntu-latest
 
     steps:
