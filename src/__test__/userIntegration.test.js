@@ -11,9 +11,9 @@ describe("/v1/user endpoint integration tests", () => {
     username: "mihir.adelkar@gmail.com",
   };
 
-  beforeEach(async () => {
-    await new Promise((resolve) => setTimeout(resolve, 4000));
-  });
+  beforeEach(
+    async () => await new Promise((resolve) => setTimeout(resolve, 2000))
+  );
 
   test("Test 1 - Create an account", async () => {
     const response = await request(app)
@@ -34,6 +34,7 @@ describe("/v1/user endpoint integration tests", () => {
         ).toString("base64")}`
       );
     expect(response.statusCode).toBe(200);
+    expect(response.body.id).toBe(userId);
     expect(response.body.email).toBe(userData.username);
     expect(response.body.first_name).toBe(userData.first_name);
     expect(response.body.last_name).toBe(userData.last_name);
@@ -68,8 +69,15 @@ describe("/v1/user endpoint integration tests", () => {
         ).toString("base64")}`
       );
     expect(response.statusCode).toBe(200);
+    expect(response.body.id).toBe(userId);
     expect(response.body.email).toBe(userData.username);
     expect(response.body.first_name).toBe("Updated");
     expect(response.body.last_name).toBe(userData.last_name);
   });
+
+  // run the delete sql query to delete the user
+  // afterAll(async () => {
+  //   // Assuming there is a function to delete the user from the database
+  //   await deleteUser(userId);
+  // });
 });

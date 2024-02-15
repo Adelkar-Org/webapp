@@ -6,11 +6,9 @@ const errorHandler = require("./src/middlewares/errorHandler.js");
 const app = initialize();
 
 // Start the server
-app.listen(config.app.port, () => {
-  console.log(
-    `Server listening at http://localhost:${config.app.port}/healthz`
-  );
-});
+app.listen(config.app.port, () =>
+  console.log(`Server listening at http://localhost:${config.app.port}/healthz`)
+);
 
 // Error handler
 app.use(errorHandler);
