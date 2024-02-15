@@ -1,4 +1,4 @@
-name: Node Integration Test
+name: Github Actions Test
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Node.js Integration Test
+    name: github-actions-test
     runs-on: ubuntu-latest
 
     steps:
