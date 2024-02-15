@@ -4,7 +4,7 @@ const app = initialize();
 
 describe("/healthz endpoint integration tests", () => {
   beforeAll(
-    async () => await new Promise((resolve) => setTimeout(resolve, 10000))
+    async () => await new Promise((resolve) => setTimeout(resolve, 4000))
   );
 
   // get request for healthz endpoint

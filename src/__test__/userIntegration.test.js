@@ -12,11 +12,11 @@ describe("/v1/user endpoint integration tests", () => {
   };
 
   beforeAll(
-    async () => await new Promise((resolve) => setTimeout(resolve, 10000))
+    async () => await new Promise((resolve) => setTimeout(resolve, 4000))
   );
 
   beforeEach(
-    async () => await new Promise((resolve) => setTimeout(resolve, 5000))
+    async () => await new Promise((resolve) => setTimeout(resolve, 4000))
   );
 
   test("Test 1 - Create an account", async () => {
