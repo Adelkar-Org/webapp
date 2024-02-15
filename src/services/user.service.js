@@ -50,6 +50,21 @@ async function updateUser(email, first_name, last_name, password) {
   }
 }
 
+async function deleteUser(email) {
+  try {
+    const user = await UserModel.findOne({ where: { email } });
+    if (user) {
+      await user.destroy();
+      return true;
+    } else {
+      throw new Error("User not found");
+    }
+  } catch (error) {
+    console.error("deleteUser: ", error);
+    return false;
+  }
+}
+
 module.exports = {
   createUser,
   getUserByEmail,
