@@ -29,6 +29,7 @@ jobs:
       - name: Create Database, User and Grant Permission for MySQL
         run: |
           sudo mysql --user=${{ secrets.DB_ROOT_USER }} --password=${{ secrets.DB_ROOT_PASSWORD }} -e "CREATE DATABASE IF NOT EXISTS ${{ secrets.DB_NAME }};"
+          sudo mysql --user=${{ secrets.DB_ROOT_USER }} --password=${{ secrets.DB_ROOT_PASSWORD }} -e "show databases;"
 
       - name: Install dependencies
         run: npm install
