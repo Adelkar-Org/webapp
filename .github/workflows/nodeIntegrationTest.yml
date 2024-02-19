@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install MySQL
+      - name: Update and Verify MySQL
         run: |
           sudo apt-get update
           mysql --version
