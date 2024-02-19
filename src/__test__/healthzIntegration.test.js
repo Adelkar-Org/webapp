@@ -10,7 +10,7 @@ describe("/healthz endpoint integration tests", () => {
   // get request for healthz endpoint
   test("Test 1 - get request for healthz endpoint", async () => {
     const response = await request(app).get("/healthz");
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(201);
   });
 
   // post request for healthz endpoint
