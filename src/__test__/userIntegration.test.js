@@ -16,7 +16,7 @@ describe("/v1/user endpoint integration tests", () => {
   );
 
   beforeEach(
-    async () => await new Promise((resolve) => setTimeout(resolve, 4000))
+    async () => await new Promise((resolve) => setTimeout(resolve, 1000))
   );
 
   test("Test 1 - Create an account", async () => {
