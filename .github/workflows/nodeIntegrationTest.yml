@@ -29,8 +29,7 @@ jobs:
         run: sudo service mysql start
 
       - name: Create a database
-        run: |
-          sudo mysql --user=${{secrets.DB_USER}} --password=${{secrets.DB_ROOT_PASSWORD}} -e "CREATE DATABASE IF NOT EXISTS ${{ secrets.DB_NAME }};"
+        run: sudo mysql --user=${{secrets.DB_USER}} --password=${{secrets.DB_ROOT_PASSWORD}} -e "CREATE DATABASE IF NOT EXISTS ${{ secrets.DB_NAME }};"
 
       - name: Install dependencies
         run: npm install
