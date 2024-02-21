@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
-const config = require("./config.js");
+const config = require("./config");
 
+console.log("config.database.name: ", config.database);
 const sequelize = new Sequelize(
   config.database.name,
   config.database.user,
@@ -13,11 +14,17 @@ const sequelize = new Sequelize(
 
 sequelize
   .authenticate()
-  .then(function () {
-    console.log("database connected");
+  .then(() => {
+    sequelize
+      .sync({ alter: true, force: false })
+      .then(() => console.log("Database connection and sync successfully."))
+      .catch((err) => {
+        console.error("Database sync error.");
+        console.log(err);
+      });
   })
-  .catch(function (err) {
-    console.error("Sequelize connection error.");
+  .catch((err) => {
+    console.error("Database connection error.");
     console.log(err);
   });
 
