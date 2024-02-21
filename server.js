@@ -1,4 +1,4 @@
-const config = require("./src/configs/config.js");
+const { config } = require("./src/configs/");
 const initialize = require("./src/app.js");
 const errorHandler = require("./src/middlewares/errorHandler.js");
 

@@ -1,25 +1,28 @@
-const config = require("../configs/config.js");
+const { config } = require("../configs");
+const ApiError = require("../utils/apiError");
 
 // global error handler
 const errorHandler = (err, req, res, next) => {
-  // Log the error
-  if (config.app.environment !== "production") {
-    console.error("Error: ", err.message);
-    console.error("Stack: ", err.stack);
-  } else {
-    console.error("Error: ", err.message); // Log minimal error info in production
+  const isDevelopment = config.app.environment === "development";
+  let { statusCode, message } = err;
+
+  if (!(err instanceof ApiError)) {
+    statusCode = 500;
+    message = "Internal Server Error";
   }
 
-  // Error format
-  const errorResponse = {
-    error: err.message || "Internal Server Error",
-    ...(config.app.enviornment === "development" && { stack: err.stack }), // stack trace in development only
-  };
+  // Log the error
+  if (isDevelopment) {
+    console.error(err);
+  } else {
+    console.error("Error: ", message); // Log minimal error info in production
+  }
 
-  // set status code else default to 500
-  const statusCode = err.statusCode || 500;
-
-  res.status(statusCode).json(errorResponse);
+  res.status(statusCode).json({
+    error: true,
+    message: message,
+    ...(isDevelopment && { stack: err.stack }),
+  });
 };
 
 module.exports = errorHandler;
