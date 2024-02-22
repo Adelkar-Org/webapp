@@ -35,5 +35,17 @@ jobs:
       - name: Verify Zip
         run: ls -l
 
+      - name: Packer init
+        run: packer init ./packer/.
+
+      - name: Format Packer template
+        run: packer fmt -check ./packer/.
+
+      - name: Verify scripts
+        run: ls -l ./packer/scripts
+
+      - name: Validate Packer template
+        run: packer validate -var 'project_id=${{secrets.PROJECT_ID}}' -var 'zone=${{secrets.ZONE}}' ./packer/.
+
       - name: Build Packer Image
-        run: packer build ./packer/.
+        run: packer build -var 'project_id=${{secrets.PROJECT_ID}}' -var 'zone=${{secrets.ZONE}}' ./packer/.
