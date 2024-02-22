@@ -43,5 +43,8 @@ jobs:
       - name: Format Packer template
         run: packer fmt -check ./packer/.
 
+      - name: Verify scripts
+        run: ls -l ./packer/scripts
+
       - name: Validate Packer template
         run: packer validate -var 'project_id=${{secrets.PROJECT_ID}}' -var 'zone=${{secrets.ZONE}}' ./packer/.
