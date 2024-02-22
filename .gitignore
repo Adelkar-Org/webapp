@@ -129,4 +129,11 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# packer files
+packer.auto.pkrvars.hcl
+
+# my ignore files
 temp*.*
+
+# zip files
+*.zip

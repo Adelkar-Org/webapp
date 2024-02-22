@@ -1,14 +1,13 @@
-name: MySQL Integration Test
+name: Integration Test
 
 on:
   pull_request:
     branches:
       - main
-      - development
 
 jobs:
   integration-tests:
-    name: MySQL Integration Tests
+    name: Integration Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -29,7 +28,7 @@ jobs:
         run: sudo service mysql start
 
       - name: Create a database
-        run: sudo mysql --user=${{secrets.DB_USER}} --password=${{secrets.DB_ROOT_PASSWORD}} -e "CREATE DATABASE IF NOT EXISTS ${{ secrets.DB_NAME }};"
+        run: sudo mysql -u ${{secrets.DB_USER}} --password=${{secrets.DB_PASSWORD}} -e "CREATE DATABASE IF NOT EXISTS ${{ secrets.DB_NAME }};"
 
       - name: Install dependencies
         run: npm install
@@ -43,4 +42,41 @@ jobs:
           DB_NAME: ${{ secrets.DB_NAME }}
           DB_DIALECT: ${{ secrets.DB_DIALECT }}
           DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
+  packer-format:
+    name: Packer Format
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Set up Packer
+        uses: hashicorp/setup-packer@v1
+        with:
+          packer_version: 1.7.3
+
+      - name: Set up GCP Service Account
+        uses: google-github-actions/auth@v2
+        id: auth
+        with:
+          credentials_json: "${{ secrets.GCP_SA_KEY }}"
+
+      - name: Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: gcloud CLI
+        run: gcloud info
+
+      - name: Zip Project
+        run: zip -r webapp.zip .
+
+      - name: Verify zip
+        run: ls -l
+
+      - name: Format Packer template
+        run: packer fmt ./packer/.
+
+      - name: Validate Packer template
+        run: packer validate ./packer/.
