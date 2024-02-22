@@ -1,5 +1,8 @@
 const authService = require("../services/auth.service");
-const { unauthorizedResponse } = require("../utils/setResponses");
+const {
+  unauthorizedResponse,
+  UnauthorizedError,
+} = require("../utils/setResponses");
 
 /**
  * Middleware function for handling authentication.

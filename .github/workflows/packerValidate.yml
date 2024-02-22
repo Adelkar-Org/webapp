@@ -1,15 +1,17 @@
-name: Packer Image Builder for GCP
+name: Integration Test
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
 jobs:
-  build:
+  packer-format:
+    name: Packer Format
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Check out the repository
         uses: actions/checkout@v2
 
       - name: Set up Packer
@@ -32,8 +34,11 @@ jobs:
       - name: Zip Project
         run: zip -r webapp.zip .
 
-      - name: Verify Zip
+      - name: Verify zip
         run: ls -l
 
-      - name: Build Packer Image
-        run: packer build ./packer/.
+      - name: Format Packer template
+        run: packer fmt ./packer/.
+
+      - name: Validate Packer template
+        run: packer validate ./packer/.

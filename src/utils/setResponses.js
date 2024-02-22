@@ -6,6 +6,9 @@ const createdResponse = (res, data) => res.status(201).json(data);
 
 const noContentResponse = (res) => res.status(204).send();
 
+const unauthorizedResponse = (res) =>
+  res.status(401).json({ message: "Unauthorized" });
+
 // client errors
 class BadRequestError extends ApiError {
   constructor(message = "Bad Request") {
@@ -54,6 +57,7 @@ module.exports = {
   okResponse,
   createdResponse,
   noContentResponse,
+  unauthorizedResponse,
   BadRequestError,
   UnauthorizedError,
   ForbiddenError,
