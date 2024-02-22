@@ -37,6 +37,9 @@ jobs:
       - name: Verify zip
         run: ls -l
 
+      - name: Packer init
+        run: packer init ./packer/.
+
       - name: Format Packer template
         run: packer fmt ./packer/.
 
