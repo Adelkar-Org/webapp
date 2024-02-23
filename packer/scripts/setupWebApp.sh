@@ -9,8 +9,6 @@ sudo npm install
 
 sudo touch .env.development
 sudo cp .env.example .env.development
-ls -la
-cat .env.development
 
 sudo chown -R csye6225:csye6225 /opt/webapp
 sudo chmod +x /opt/webapp/server.js
