@@ -6,8 +6,10 @@ sudo mkdir -p /opt/webapp
 sudo unzip /tmp/webapp.zip -d /opt/webapp/
 cd /opt/webapp/
 sudo npm install
-touch .env.development
-cp .env.example .env.development
+
+sudo touch .env.development
+sudo cp .env.example .env.development
+ls -la
 cat .env.development
 
 sudo chown -R csye6225:csye6225 /opt/webapp
