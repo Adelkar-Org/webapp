@@ -11,7 +11,7 @@ build {
     destination = "/tmp/webapp.service"
   }
 
-  provisioner "shell" {
+  provisioner "shell" 
     scripts = [
       "./packer/scripts/createUser.sh",
       "./packer/scripts/installDependencies.sh",
