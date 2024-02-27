@@ -9,7 +9,7 @@ source "googlecompute" "centos" {
   ssh_username            = "centos"
 
   image_name       = "webapp-image-${local.timestamp}"
-  image_project_id = var.project_id
+  image_project_id =   var.project_id
   image_family     = "webapp-image-family"
 }
 
