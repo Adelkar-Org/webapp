@@ -15,9 +15,9 @@ build {
     scripts = [
       "./packer/scripts/createUser.sh",
       "./packer/scripts/installDependencies.sh",
-      "./packer/scripts/mysql.sh",
+      // "./packer/scripts/mysql.sh",
       "./packer/scripts/setupWebApp.sh",
-      "./packer/scripts/startWebApp.sh"
+      // "./packer/scripts/startWebApp.sh"
     ]
   }
 

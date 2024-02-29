@@ -8,9 +8,12 @@ cd /opt/webapp/
 sudo npm install
 
 sudo touch .env.development
-sudo cp .env.example .env.development
 
 sudo chown -R csye6225:csye6225 /opt/webapp
 sudo chmod +x /opt/webapp/server.js
+
+sudo mv /tmp/webapp.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable webapp.service
 
 echo "WebApp installation complete"
