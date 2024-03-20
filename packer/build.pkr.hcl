@@ -18,6 +18,7 @@ build {
       // "./packer/scripts/mysql.sh",
       "./packer/scripts/setupWebApp.sh",
       // "./packer/scripts/startWebApp.sh"
+      "./packer/scripts/opsAgent.sh",
     ]
   }
 
