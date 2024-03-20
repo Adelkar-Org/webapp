@@ -14,12 +14,6 @@ app.listen(config.app.port, () => {
   logger.info(
     "Server listening at http://localhost:${config.app.port}/healthz"
   );
-  logger.error("error");
-  logger.info("info");
-  logger.warn("warn");
-  logger.debug("debug");
-  logger.verbose("verbose");
-  logger.silly("silly");
 });
 
 // Error handler
