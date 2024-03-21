@@ -11,7 +11,7 @@ logging:
     webapp_log:
       type: files
       include_paths:
-        - /var/log/webapp/*.log
+        - /var/log/csye6225/*.log
   service:
     pipelines:
       webapp_pipeline:
