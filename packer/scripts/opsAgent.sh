@@ -18,7 +18,7 @@ sudo mv /tmp/loggerConfig.yaml /etc/google-cloud-ops-agent/config.yaml
 #       record_log_file_path: true
 #   processors:
 #     webapp_severity:
-#       type: parse_severity
+#       type: modify_fields
 #       fields:
 #         severity:
 #           move_from: jsonPayload.level
