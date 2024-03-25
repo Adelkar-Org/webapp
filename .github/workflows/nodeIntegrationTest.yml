@@ -33,11 +33,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: give permission to create log file
-        run: |
-          sudo mkdir -p /var/log/csye6225
-          sudo touch /var/log/csye6225/webapp.log
-          sudo chmod 640 /var/log/csye6225/*.log
+      # - name: give permission to create log file
+      # run: |
+      #   sudo mkdir -p /var/log/csye6225
+      #   sudo touch /var/log/csye6225/webapp.log
+      #   sudo chmod 640 /var/log/csye6225/*.log
 
       - name: Run integration tests
         run: npm test
