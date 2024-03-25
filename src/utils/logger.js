@@ -3,7 +3,7 @@ const config = require("../configs/config");
 require("winston-daily-rotate-file");
 
 const logDir =
-  config.app.environment === "development"
+  config.app.environment === "development" // development for testing
     ? "/var/log/csye6225"
     : "./log/csye6225";
 
