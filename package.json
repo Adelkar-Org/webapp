@@ -4,11 +4,10 @@
   "description": "Cloud Native Web Application",
   "main": "server.js",
   "scripts": {
-    "pass-test": "echo \"Sucess: All test passed\" && exit 0",
-    "fail-test": "echo \"Fail: Test failed\" && exit 1",
     "test": "jest",
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "prod": "NODE_ENV=production node server.js"
   },
   "repository": {
     "type": "git",
@@ -35,7 +34,8 @@
     "mysql2": "^3.9.1",
     "sequelize": "^6.36.0",
     "swagger-ui-express": "^5.0.0",
-    "winston": "^3.12.0"
+    "winston": "^3.12.0",
+    "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",

@@ -11,7 +11,7 @@ async function userAuth(email, password) {
     }
     return null;
   } catch (error) {
-    console.error("userAuth: ", error);
+    logger.error({ message: "userAuth Error", error });
     return null;
   }
 }

@@ -1,5 +1,6 @@
 // src/configs/validateEnv.js
 const Joi = require("joi");
+const logger = require("../utils/logger");
 
 const envVarsSchema = Joi.object({
   //
@@ -17,7 +18,7 @@ const envVarsSchema = Joi.object({
   .required();
 
 function validateEnv(envVariables) {
-  console.log(envVariables);
+  // logger.log(envVariables);
   const { error, value } = envVarsSchema.validate(envVariables);
   if (error) {
     throw new Error(`Config validation error: ${error.message}`);

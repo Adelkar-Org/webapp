@@ -8,9 +8,7 @@ const app = initialize();
 
 // Start the server
 app.listen(config.app.port, () => {
-  console.log(
-    `Server listening at http://localhost:${config.app.port}/healthz`
-  );
+  // console.log(`Server listening at http://localhost:${config.app.port}/healthz`);
   logger.info(
     "Server listening at http://localhost:${config.app.port}/healthz"
   );
