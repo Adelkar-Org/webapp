@@ -20,6 +20,4 @@ logging:
       webapp_pipeline:
         receivers:
           - webapp_log
-        processors:
-          - webapp_severity
-          - webapp_json
+        processors: [webapp_json, webapp_severity]
