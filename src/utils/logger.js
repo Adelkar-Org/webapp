@@ -2,13 +2,10 @@ const winston = require("winston");
 const config = require("../configs/config");
 require("winston-daily-rotate-file");
 
-// commented for testing all log in prod
-// const logDir =
-//   config.app.environment === "production"
-//     ? "/var/log/csye6225"
-//     : "./log/csye6225";
-
-const logDir = "/var/log/csye6225";
+const logDir =
+  config.app.environment === "development"
+    ? "/var/log/csye6225"
+    : "./log/csye6225";
 
 // Transport for daily rotation
 const dailyRotateFileTransport = new winston.transports.DailyRotateFile({
@@ -39,10 +36,6 @@ const logger = winston.createLogger({
       ),
     }),
     dailyRotateFileTransport,
-    // testing locally
-    new winston.transports.File({
-      filename: `./log/csye6225/webapp.log`,
-    }),
   ],
 });
 
