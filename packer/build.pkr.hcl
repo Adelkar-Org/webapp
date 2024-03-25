@@ -11,6 +11,11 @@ build {
     destination = "/tmp/webapp.service"
   }
 
+  provisioner "file" {
+    source      = "./loggerConfig.yaml"
+    destination = "/tmp/loggerConfig.yaml"
+  }
+
   provisioner "shell" {
     scripts = [
       "./packer/scripts/createUser.sh",

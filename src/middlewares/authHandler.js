@@ -31,7 +31,7 @@ const authHandler = async (req, res, next) => {
     req.user = auth;
     next();
   } catch (error) {
-    console.error("Authentication error:", error.message);
+    logger.error({ mesage: "Authentication error:", error });
     return unauthorizedResponse(res);
   }
 };

@@ -13,9 +13,9 @@ const errorHandler = (err, req, res, next) => {
 
   // Log the error
   if (isDevelopment) {
-    console.error(err);
+    logger.error({ error: err });
   } else {
-    console.error("Error: ", message); // Log minimal error info in production
+    logger.error("Error: ", message); // Log minimal error info in production
   }
 
   res.status(statusCode).json({

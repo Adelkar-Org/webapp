@@ -36,8 +36,8 @@ jobs:
       - name: give permission to create log file
         run: |
           sudo mkdir -p /var/log/csye6225
-          sudo touch /var/log/csye6225/csye6225.log
-          sudo chmod 766 /var/log/csye6225/csye6225.log
+          sudo touch /var/log/csye6225/webapp.log
+          sudo chmod 766 /var/log/csye6225/webapp.log
 
       - name: Run integration tests
         run: npm test

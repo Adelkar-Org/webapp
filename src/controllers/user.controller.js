@@ -1,4 +1,5 @@
 const userService = require("../services/user.service");
+const logger = require("../utils/logger");
 
 async function createUser(req, res) {
   const { first_name, last_name, password, username } = req.body;
@@ -20,9 +21,11 @@ async function createUser(req, res) {
 
     // check if user already exists
     const userExists = await userService.getUserByEmail(username);
-    if (userExists)
+    if (userExists) {
+      // logger.error({ message: "User already exists" });
+      logger.debug({ message: "User already exists", userExists });
       return res.status(400).json({ message: "User already exists" });
-
+    }
     const user = await userService.createUser(
       first_name,
       last_name,
@@ -33,7 +36,7 @@ async function createUser(req, res) {
       return res.status(400).json({ message: "Invalid Request", user });
     res.status(201).json(user);
   } catch (error) {
-    console.error("createUser: ", error);
+    logger.error({ message: "createUser Error", error });
     res.status(500).json({ message: "Internal server error" });
   }
 }
@@ -45,7 +48,7 @@ async function getSelfUser(req, res) {
     if (!user) return res.status(400).json({ message: "Invalid Request" });
     res.status(200).json(user);
   } catch (error) {
-    console.error("getSelfUser: ", error);
+    logger.error({ message: "getSelfUser: ", error });
     res.status(500).json({ message: "Internal server error" });
   }
 }
@@ -65,7 +68,7 @@ async function updateSelfUser(req, res) {
     if (!user) return res.status(400).json({ message: "Invalid Request" });
     res.status(204).json();
   } catch (error) {
-    console.error("updateSelfUser: ", error);
+    logger.error({ message: "updateSelfUser: ", error });
     res.status(500).json({ message: "Internal server error" });
   }
 }

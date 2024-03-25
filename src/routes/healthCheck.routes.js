@@ -11,12 +11,12 @@ router.get("/", healthCheck);
 
 // To handle all other unsupported methods on the health check endpoint
 router.all("/", (req, res) => {
-  logger.error("error");
-  logger.info("info");
-  logger.warn("warn");
-  logger.debug("debug");
-  logger.verbose("verbose");
-  logger.silly("silly");
+  logger.error({ message: "Logger test - error" });
+  logger.info({ message: "Logger test - info" });
+  logger.warn({ message: "Logger test - warn" });
+  logger.debug({ message: "Logger test - debug" });
+  logger.verbose({ message: "Logger test - verbose" });
+  logger.silly({ message: "Logger test - silly" });
   res.status(405).send();
 });
 

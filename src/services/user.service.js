@@ -1,4 +1,5 @@
 const UserModel = require("../models/user.model");
+const logger = require("../utils/logger");
 
 async function createUser(first_name, last_name, password, username) {
   try {
@@ -12,7 +13,7 @@ async function createUser(first_name, last_name, password, username) {
     delete userJSON.password;
     return userJSON;
   } catch (error) {
-    console.error("createUser: ", error);
+    logger.error({ message: "createUser Error", error });
     return null;
   }
 }
@@ -25,7 +26,7 @@ async function getUserByEmail(email) {
     });
     return user;
   } catch (error) {
-    console.error("getUserByEmail: ", error);
+    logger.error({ message: "getUserByEmail Error", error });
     return null;
   }
 }
@@ -45,7 +46,7 @@ async function updateUser(email, first_name, last_name, password) {
       throw new Error("User not found");
     }
   } catch (error) {
-    console.error("updateUser: ", error);
+    logger.error({ message: "updateUser Error", error });
     return null;
   }
 }
@@ -60,7 +61,7 @@ async function deleteUser(email) {
       throw new Error("User not found");
     }
   } catch (error) {
-    console.error("deleteUser: ", error);
+    logger.error({ message: "deleteUser Error", error });
     return false;
   }
 }

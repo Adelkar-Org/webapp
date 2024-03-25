@@ -1,7 +1,8 @@
 const Sequelize = require("sequelize");
 const config = require("./config");
+const logger = require("../utils/logger");
 
-console.log("config.database.name: ", config.database);
+// console.log("config.database.name: ", config.database);
 const sequelize = new Sequelize(
   config.database.name,
   config.database.user,
@@ -17,15 +18,13 @@ sequelize
   .then(() => {
     sequelize
       .sync({ alter: true, force: false })
-      .then(() => console.log("Database connection and sync successfully."))
+      .then(() => logger.info("Database connection and sync successfully."))
       .catch((err) => {
-        console.error("Database sync error.");
-        console.log(err);
+        logger.error({ message: "Database sync error.", error: err });
       });
   })
   .catch((err) => {
-    console.error("Database connection error.");
-    console.log(err);
+    logger.error({ message: "Database connection error.", error: err });
   });
 
 module.exports = sequelize;
