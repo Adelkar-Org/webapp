@@ -1,11 +1,10 @@
+const { config } = require("../configs");
 const userService = require("../services/user.service");
 const logger = require("../utils/logger");
 const publishMessage = require("../utils/publishMessage");
 
 async function createUser(req, res) {
   const { first_name, last_name, password, username } = req.body;
-  const isGitHubActions = process.env.GITHUB_ACTIONS === "true";
-
   try {
     if (!first_name || typeof first_name !== "string")
       return res.status(400).json({ message: "Invalid first name" });
@@ -37,7 +36,8 @@ async function createUser(req, res) {
     );
     if (!user)
       return res.status(400).json({ message: "Invalid Request", user });
-    if (!isGitHubActions) {
+    console.log("config.ci.isGitHubActions", config.ci.isGitHubActions);
+    if (!config.ci.isGitHubActions) {
       publishMessage("verify_email", user).catch(console.error);
     }
     res.status(201).json(user);
