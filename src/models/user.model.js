@@ -50,6 +50,10 @@ const User = sequelize.define(
       type: DataTypes.DATE,
       defaultValue: Sequelize.NOW,
     },
+    account_verified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
   {
     timestamps: false,
