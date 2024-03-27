@@ -1,5 +1,5 @@
 const sequelize = require("../configs/database");
-const { Sequelize, DataTypes } = require("sequelize");
+const { DataTypes } = require("sequelize");
 
 const EmailTracker = sequelize.define("emailTracker", {
   email: {
@@ -14,6 +14,20 @@ const EmailTracker = sequelize.define("emailTracker", {
   token: {
     type: DataTypes.UUID,
     allowNull: false,
+  },
+  userId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    references: {
+      model: "Users",
+      key: "id",
+    },
+  },
+  status: {
+    type: DataTypes.INTEGER,
+  },
+  messageData: {
+    type: DataTypes.STRING,
   },
 });
 

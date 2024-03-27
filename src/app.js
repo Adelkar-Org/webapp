@@ -9,7 +9,7 @@ const initialize = () => {
   const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  logger.warn({ message: "config.app.environment: ", config: config.app });
+  logger.warn(`config.app.environment:  ${JSON.stringify(config.app)}`);
   sequelize.authenticate();
   cors(app);
   app.use(helmet());
