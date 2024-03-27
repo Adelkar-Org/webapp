@@ -1,5 +1,6 @@
 const userService = require("../services/user.service");
 const logger = require("../utils/logger");
+const publishMessage = require("../utils/publishMessage");
 
 async function createUser(req, res) {
   const { first_name, last_name, password, username } = req.body;
@@ -34,6 +35,9 @@ async function createUser(req, res) {
     );
     if (!user)
       return res.status(400).json({ message: "Invalid Request", user });
+    if (process.env.GITHUB_ACTIONS !== "true") {
+      publishMessage("verify_email", user).catch(console.error);
+    }
     res.status(201).json(user);
   } catch (error) {
     logger.error({ message: "createUser Error", error });

@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/Adelkar-Org/webapp#readme",
   "dependencies": {
+    "@google-cloud/pubsub": "^4.3.3",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",

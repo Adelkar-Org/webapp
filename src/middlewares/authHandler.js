@@ -28,6 +28,11 @@ const authHandler = async (req, res, next) => {
     const auth = await authService.userAuth(username, password);
     if (!auth) return unauthorizedResponse(res);
 
+    if (!auth.account_verified) {
+      // throw new UnauthorizedError("Account not verified");
+      return unauthorizedResponse(res, "Account not verified");
+    }
+
     req.user = auth;
     next();
   } catch (error) {
