@@ -37,7 +37,7 @@ async function verifyEmail(id, token) {
     if (!user) return null;
     if (user.account_verified == true) return user;
     user.account_verified = true;
-    // await user.save();
+    await user.save();
     return user;
   } catch (error) {
     logger.error({ message: "verifyEmail Error", error });
