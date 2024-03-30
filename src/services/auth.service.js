@@ -26,7 +26,8 @@ async function verifyEmail(id, token) {
     if (!tokenData) return null;
     if (
       tokenData.token !== token ||
-      Date.now() - tokenData.createdAt.getTime() > 120000
+      Date.now() - tokenData.createdAt.getTime() >
+        config.email_verification.expiry
     ) {
       return null;
     }
