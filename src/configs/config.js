@@ -26,6 +26,9 @@ const config = {
     secret: process.env.JWT_SECRET,
     expiry: process.env.JWT_EXPIRY,
   },
+  email_verification: {
+    expiry: process.env.EMAIL_VERIFICATION_EXPIRY,
+  },
   ci: {
     isGitHubActions: process.env.CI && process.env.GITHUB_ACTIONS,
   },
