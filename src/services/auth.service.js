@@ -35,7 +35,7 @@ async function verifyEmail(id, token) {
       where: { id },
     });
     if (!user) return null;
-    if (user.account_verified == true) return user;
+    if (user.account_verified == true) return { isVerified: true };
     user.account_verified = true;
     await user.save();
     return user;
