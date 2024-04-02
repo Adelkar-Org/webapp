@@ -3,7 +3,7 @@ const authService = require("../services/auth.service");
 const logger = require("../utils/logger");
 const {
   unauthorizedResponse,
-  UnauthorizedError,
+  forbiddenResponse,
 } = require("../utils/setResponses");
 
 /**
@@ -31,7 +31,7 @@ const authHandler = async (req, res, next) => {
     if (!auth) return unauthorizedResponse(res);
     if (!config.ci.isGitHubActions) {
       if (!auth.account_verified) {
-        return unauthorizedResponse(res);
+        return forbiddenResponse(res);
       }
     }
     req.user = auth;
