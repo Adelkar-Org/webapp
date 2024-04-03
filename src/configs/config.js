@@ -27,10 +27,10 @@ const config = {
     expiry: process.env.JWT_EXPIRY,
   },
   email_verification: {
-    expiry: process.env.EMAIL_VERIFICATION_EXPIRY,
+    expiry: process.env.EMAIL_VERIFICATION_EXPIRY || 240000,
   },
   ci: {
-    isGitHubActions: process.env.CI && process.env.GITHUB_ACTIONS,
+    isGitHubActions: (process.env.CI && process.env.GITHUB_ACTIONS) || false,
   },
 };
 module.exports = config;

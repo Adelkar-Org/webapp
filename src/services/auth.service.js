@@ -1,7 +1,7 @@
-const EmailTracker = require("../models/emailTracker.model");
 const { config } = require("../configs");
+const EmailTracker = require("../models/emailTracker.model");
 const UserModel = require("../models/user.model");
-const { is } = require("@babel/types");
+const logger = require("../utils/logger");
 
 async function userAuth(email, password) {
   try {
@@ -20,29 +20,22 @@ async function userAuth(email, password) {
 }
 
 async function verifyEmail(id, token) {
-  try {
-    // console.log("id", id, "token", token);
-    const tokenData = await EmailTracker.findOne({ where: { token } });
-    if (!tokenData) return null;
-    if (
-      tokenData.token !== token ||
-      Date.now() - tokenData.createdAt.getTime() >
-        config.email_verification.expiry
-    ) {
-      return null;
-    }
-    const user = await UserModel.findOne({
-      where: { id },
-    });
-    if (!user) return null;
-    if (user.account_verified == true) return { isVerified: true };
-    user.account_verified = true;
-    await user.save();
-    return user;
-  } catch (error) {
-    logger.error({ message: "verifyEmail Error", error });
-    return null;
-  }
+  const tokenData = await EmailTracker.findOne({ where: { token } });
+  if (!tokenData) throw new Error("Invalid Token");
+  if (
+    Date.now() - tokenData.createdAt.getTime() >
+    config.email_verification.expiry
+  )
+    throw new Error("Token Expired");
+  if (tokenData.token !== token) throw new Error("Invalid Token");
+  const user = await UserModel.findOne({
+    where: { id },
+  });
+  if (!user) throw new Error("Invalid Request");
+  if (user.account_verified == true) throw new Error("User already verified");
+  user.account_verified = true;
+  // await user.save();
+  return user;
 }
 
 module.exports = {
