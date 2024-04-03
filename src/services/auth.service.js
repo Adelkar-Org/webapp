@@ -34,7 +34,7 @@ async function verifyEmail(id, token) {
   if (!user) throw new Error("Invalid Request");
   if (user.account_verified == true) throw new Error("User already verified");
   user.account_verified = true;
-  // await user.save();
+  await user.save();
   return user;
 }
 
