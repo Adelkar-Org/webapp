@@ -58,7 +58,7 @@ jobs:
 
       - name: Generate a unique template name
         id: vars
-        run: echo "TEMPLATE_NAME=$(date +%Y%m%d%H%M%S)-${{ secrets.TEMPLATE_NAME }}" >> $GITHUB_ENV
+        run: echo "TEMPLATE_NAME=template-$(date +%Y%m%d%H%M%S)-${{ secrets.TEMPLATE_NAME }}" >> $GITHUB_ENV
 
       - name: Create a new instance template
         run: |
