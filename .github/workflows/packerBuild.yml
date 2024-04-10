@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - development
 
 jobs:
   build:
@@ -60,12 +61,54 @@ jobs:
         id: vars
         run: echo "TEMPLATE_NAME=template-$(date +%Y%m%d%H%M%S)-${{ secrets.TEMPLATE_NAME }}" >> $GITHUB_ENV
 
+      - name: Retrieve database password and host secrets
+        run: |
+          echo "DB_PASSWORD=$(gcloud secrets versions access latest --secret=db_password)" >> $GITHUB_ENV
+          echo "DB_HOST=$(gcloud secrets versions access latest --secret=db_host)" >> $GITHUB_ENV
+
+      - name: Create startup script
+        run: |
+          cat << 'EOF' > start-webapp.sh
+          #!/bin/bash
+
+          DB_NAME=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_name -H "Metadata-Flavor: Google")
+          DB_USER=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_user -H "Metadata-Flavor: Google")
+          DB_PASSWORD=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_password -H "Metadata-Flavor: Google")
+          DB_HOST=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_host -H "Metadata-Flavor: Google")
+
+          cat > /opt/webapp/.env.development << EOF
+          PORT=8080
+          HOST="localhost"
+          DB_DIALECT="mysql"
+          DB_NAME=$DB_NAME
+          DB_USER=$DB_USER
+          DB_PASSWORD=$DB_PASSWORD 
+          DB_HOST=$DB_HOST
+
+          GCLOUD_PROJECT_ID="csye6225-cloud-dev-415002"
+
+          EMAIL_VERIFICATION_TIMEOUT = 300000
+          EOF
+
+          sudo systemctl start webapp.service
+          EOF
+          chmod +x start-webapp.sh
+
       - name: Create a new instance template
         run: |
           gcloud compute instance-templates create ${{ env.TEMPLATE_NAME }} \
             --region=${{ secrets.REGION }} \
-            --machine-type=n1-standard-1 \
-            --image=${{ steps.build.outputs.image_name }}
+            --machine-type=${{ secrets.MACHINE_TYPE }} \
+            --image=${{ steps.build.outputs.image_name }} \
+            --boot-disk-size=${{ secrets.DISK_SIZE_GB }} \
+            --boot-disk-type=${{ secrets.DISK_TYPE }} \
+            --network=${{ secrets.NETWORK }} \
+            --subnet=${{ secrets.SUBNETWORK }} \
+            --service-account=${{ secrets.SERVICE_ACCOUNT_EMAIL }} \
+            --scopes=cloud-platform \
+            --tags=${{ secrets.TAGS }} \
+            --metadata=db_name=${{ secrets.DB_NAME }},db_user=${{ secrets.DB_USER }},db_password=${{ env.DB_PASSWORD }},db_host=${{ env.DB_HOST }} \
+            --metadata-from-file startup-script=start-webapp.sh
 
       - name: Update managed instance group to use new template
         run: |
