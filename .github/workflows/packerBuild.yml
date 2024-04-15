@@ -94,7 +94,7 @@ jobs:
       - name: Recreate instances in the managed instance group
         run: |
           gcloud compute instance-groups managed rolling-action start-update ${{ secrets.INSTANCE_GROUP_NAME }} \
-            --version template=projects/csye6225-cloud-dev-415002/regions/us-east1/instanceTemplates/${{ env.TEMPLATE_NAME }} \
+            --version template=${{ env.TEMPLATE_NAME }} \
             --region=${{ secrets.REGION }} \
             --type=${{secrets.ROLLING_TYPE}}
 
