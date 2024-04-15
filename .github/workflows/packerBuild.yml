@@ -1,7 +1,7 @@
 name: Packer Image Builder for GCP
 
 on:
-  push:
+  pull_request:
     branches:
       - main
       - development
@@ -49,9 +49,12 @@ jobs:
         run: packer validate -var 'project_id=${{secrets.PROJECT_ID}}' -var 'zone=${{secrets.ZONE}}' ./packer/.
 
       - name: Build Packer Image
-        run: packer build -var 'project_id=${{secrets.PROJECT_ID}}' -var 'zone=${{secrets.ZONE}}' ./packer/.
+        run: packer build -var 'project_id=${{secrets.PROJECT_ID}}' -var 'zone=${{secrets.ZONE}}' ./packer/. | tee build.log
 
-      #
+      - name: Extract Image Name
+        id: build
+        run: echo "::set-output name=image_name::$(grep 'artifact,0,id' build.log | cut -d ' ' -f 2)"
+
       - name: Authenticate with gcloud CLI
         run: |
           echo '${{ secrets.GCP_SA_KEY }}' > gcp-key.json
@@ -65,6 +68,10 @@ jobs:
         run: |
           echo "DB_PASSWORD=$(gcloud secrets versions access latest --secret=db_password)" >> $GITHUB_ENV
           echo "DB_HOST=$(gcloud secrets versions access latest --secret=db_host)" >> $GITHUB_ENV
+          # print the secrets and image name
+          echo $DB_PASSWORD
+          echo $DB_HOST
+          echo ${{ steps.build.outputs.image_name }}
 
       - name: Create startup script
         run: |
@@ -99,7 +106,7 @@ jobs:
           gcloud compute instance-templates create ${{ env.TEMPLATE_NAME }} \
             --region=${{ secrets.REGION }} \
             --machine-type=${{ secrets.MACHINE_TYPE }} \
-            --image=${{ steps.build.outputs.image_name }} \
+            --image= ${{ steps.build.outputs.image_name }} \
             --boot-disk-size=${{ secrets.DISK_SIZE_GB }} \
             --boot-disk-type=${{ secrets.DISK_TYPE }} \
             --network=${{ secrets.NETWORK }} \
@@ -123,10 +130,10 @@ jobs:
             --region=${{ secrets.REGION }} \
             --type=opportunistic
 
-      - name: Wait for the instance group update to complete
-        run: |
-          while : ; do
-            status=$(gcloud compute instance-groups managed describe ${{ secrets.INSTANCE_GROUP_NAME }} --region=${{ secrets.REGION }} --format='value(status.isStable)')
-            [[ "$status" == "True" ]] && break || echo "Waiting for update to complete"
-            sleep 30
-          done
+      # - name: Wait for the instance group update to complete
+      #   run: |
+      #     while : ; do
+      #       status=$(gcloud compute instance-groups managed describe ${{ secrets.INSTANCE_GROUP_NAME }} --region=${{ secrets.REGION }} --format='value(status.isStable)')
+      #       [[ "$status" == "True" ]] && break || echo "Waiting for update to complete"
+      #       sleep 30
+      #     done
