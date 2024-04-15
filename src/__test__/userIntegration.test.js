@@ -2,7 +2,7 @@ const request = require("supertest");
 const initialize = require("../app");
 const app = initialize();
 
-describe("/v1/user endpoint integration tests", () => {
+describe("/v2/user endpoint integration tests", () => {
   let userId;
   const userData = {
     first_name: "Mihir",
@@ -21,7 +21,7 @@ describe("/v1/user endpoint integration tests", () => {
 
   test("Test 1 - Create an account", async () => {
     const response = await request(app)
-      .post(`/v1/user`)
+      .post(`/v2/user`)
       .set("Content-Type", "application/json")
       .send(userData);
     expect(response.statusCode).toBe(201);
@@ -30,7 +30,7 @@ describe("/v1/user endpoint integration tests", () => {
 
   test("Validate account exists", async () => {
     const response = await request(app)
-      .get(`/v1/user/self`)
+      .get(`/v2/user/self`)
       .set(
         "Authorization",
         `Basic ${Buffer.from(
@@ -50,7 +50,7 @@ describe("/v1/user endpoint integration tests", () => {
       first_name: "Updated",
     };
     const response = await request(app)
-      .put(`/v1/user/self`)
+      .put(`/v2/user/self`)
       .set("Content-Type", "application/json")
       .set(
         "Authorization",
@@ -64,7 +64,7 @@ describe("/v1/user endpoint integration tests", () => {
 
   test("Validate the account was updated", async () => {
     const response = await request(app)
-      .get(`/v1/user/self`)
+      .get(`/v2/user/self`)
       .set("Content-Type", "application/json")
       .set(
         "Authorization",

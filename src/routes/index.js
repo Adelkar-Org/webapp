@@ -3,5 +3,5 @@ const v1Router = require("./v1");
 
 module.exports = (app) => {
   app.use("/healthz", healthCheckRouter);
-  app.use("/v1", v1Router);
+  app.use("/v2", v1Router);
 };
