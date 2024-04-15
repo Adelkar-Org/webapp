@@ -78,8 +78,8 @@ jobs:
         run: |
           gcloud compute instance-templates create ${{ env.TEMPLATE_NAME }} \
             --region=us-east1 \
-            --machine-type=e2-small \
-            --image= ${{ env.IMAGE_NAME }} \
+            --machine-type=e2-standard-2 \
+            --image=projects/csye6225-cloud-dev-415002/global/images/${{env.IMAGE_NAME}} \
             --boot-disk-type=pd-standard \
             --boot-disk-kms-key=projects/csye6225-cloud-dev-415002/locations/us-east1/keyRings/my-key-ring-cc85c4d1/cryptoKeys/vm-key \
             --subnet=webapp-subnet \
