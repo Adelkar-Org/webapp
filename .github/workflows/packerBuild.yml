@@ -52,8 +52,9 @@ jobs:
         run: packer build -var 'project_id=${{secrets.PROJECT_ID}}' -var 'zone=${{secrets.ZONE}}' ./packer/. | tee build.log
 
       - name: Extract Image Name
-        id: build
-        run: echo "::set-output name=image_name::$(grep 'artifact,0,id' build.log | cut -d ' ' -f 2)"
+        run: |
+          IMAGE_NAME=$(grep -oP 'A disk image was created in the .+ project: \K.+' build.log)
+          echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_ENV
 
       - name: Authenticate with gcloud CLI
         run: |
@@ -78,7 +79,7 @@ jobs:
           gcloud compute instance-templates create ${{ env.TEMPLATE_NAME }} \
             --region=us-east1 \
             --machine-type=e2-small \
-            --image= ${{ steps.build.outputs.image_name }} \
+            --image= ${{ env.IMAGE_NAME }} \
             --boot-disk-type=pd-standard \
             --boot-disk-kms-key=projects/csye6225-cloud-dev-415002/locations/us-east1/keyRings/my-key-ring-cc85c4d1/cryptoKeys/vm-key \
             --subnet=webapp-subnet \
