@@ -86,7 +86,7 @@ jobs:
             --service-account=vm-instance-account@csye6225-cloud-dev-415002.iam.gserviceaccount.com \
             --scopes=https://www.googleapis.com/auth/cloud-platform \
             --tags=webapp \
-            --metadata=db_host=10.95.0.23,db_name=webapp,db_password=:CxFnB\{Xx\]Hhl\}\>F,db_user=webapp,startup-script=\#\!/bin/bash$'\n'$'\n'DB_NAME=\$\(curl\ http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_name\ -H\ \"Metadata-Flavor:\ Google\"\)$'\n'DB_USER=\$\(curl\ http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_user\ -H\ \"Metadata-Flavor:\ Google\"\)$'\n'DB_PASSWORD=\$\(curl\ http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_password\ -H\ \"Metadata-Flavor:\ Google\"\)$'\n'DB_HOST=\$\(curl\ http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_host\ -H\ \"Metadata-Flavor:\ Google\"\)$'\n'$'\n'cat\ \>\ /opt/webapp/.env.development\ \<\<\ EOF$'\n'PORT=8080$'\n'HOST=\"localhost\"$'\n'DB_DIALECT=\"mysql\"$'\n'DB_NAME=\$DB_NAME$'\n'DB_USER=\$DB_USER$'\n'DB_PASSWORD=\$DB_PASSWORD\ $'\n'DB_HOST=\$DB_HOST$'\n'$'\n'GCLOUD_PROJECT_ID=\"csye6225-cloud-dev-415002\"$'\n'$'\n'EMAIL_VERIFICATION_TIMEOUT\ =\ 300000$'\n'EOF$'\n'$'\n'sudo\ systemctl\ start\ webapp.service$'\n'
+            --metadata=db_host=10.95.0.23,db_name=webapp,db_password=:CxFnB\{Xx\]Hhl\}\>F,db_user=webapp,startup-script=${{ secrets.STARTUP_SCRIPT }}
 
         # run: |
         #   gcloud compute instance-templates create ${{ env.TEMPLATE_NAME }} \
