@@ -73,50 +73,35 @@ jobs:
           echo $DB_PASSWORD
           echo $DB_HOST
 
-      # - name: Create startup script
-      #   run: |
-      #     cat << 'EOF' > start-webapp.sh
-      #     #!/bin/bash
-
-      #     DB_NAME=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_name -H "Metadata-Flavor: Google")
-      #     DB_USER=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_user -H "Metadata-Flavor: Google")
-      #     DB_PASSWORD=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_password -H "Metadata-Flavor: Google")
-      #     DB_HOST=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_host -H "Metadata-Flavor: Google")
-
-      #     cat > /opt/webapp/.env.development << EOF
-      #     PORT=8080
-      #     HOST="localhost"
-      #     DB_DIALECT="mysql"
-      #     DB_NAME=$DB_NAME
-      #     DB_USER=$DB_USER
-      #     DB_PASSWORD=$DB_PASSWORD
-      #     DB_HOST=$DB_HOST
-
-      #     GCLOUD_PROJECT_ID="csye6225-cloud-dev-415002"
-
-      #     EMAIL_VERIFICATION_TIMEOUT = 300000
-      #     EOF
-
-      #     sudo systemctl start webapp.service
-      #     EOF
-      #     chmod +x start-webapp.sh
-
       - name: Create a new instance template
         run: |
           gcloud compute instance-templates create ${{ env.TEMPLATE_NAME }} \
-            --instance-template-region=${{ secrets.REGION }} \
-            --region=${{ secrets.REGION }} \
-            --machine-type=${{ secrets.MACHINE_TYPE }} \
+            --region=us-east1 \
+            --machine-type=e2-small \
             --image= ${{ steps.build.outputs.image_name }} \
-            --boot-disk-size=${{ secrets.DISK_SIZE_GB }} \
-            --boot-disk-type=${{ secrets.DISK_TYPE }} \
-            --boot-disk-kms-key=$KMS_KEY_SELF_LINK
-            --network=${{ secrets.NETWORK }} \
-            --subnet=${{ secrets.SUBNETWORK }} \
-            --service-account=${{ secrets.SERVICE_ACCOUNT_EMAIL }} \
-            --scopes=https://www.googleapis.com/auth/cloud-platform 
-            --tags=${{ secrets.TAGS }} \
+            --boot-disk-type=pd-standard \
+            --boot-disk-kms-key=projects/csye6225-cloud-dev-415002/locations/us-east1/keyRings/my-key-ring-cc85c4d1/cryptoKeys/vm-key \
+            --subnet=webapp-subnet \
+            --service-account=vm-instance-account@csye6225-cloud-dev-415002.iam.gserviceaccount.com \
+            --scopes=https://www.googleapis.com/auth/cloud-platform \
+            --tags=webapp \
             --metadata=db_host=10.95.0.23,db_name=webapp,db_password=:CxFnB\{Xx\]Hhl\}\>F,db_user=webapp,startup-script=\#\!/bin/bash$'\n'$'\n'DB_NAME=\$\(curl\ http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_name\ -H\ \"Metadata-Flavor:\ Google\"\)$'\n'DB_USER=\$\(curl\ http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_user\ -H\ \"Metadata-Flavor:\ Google\"\)$'\n'DB_PASSWORD=\$\(curl\ http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_password\ -H\ \"Metadata-Flavor:\ Google\"\)$'\n'DB_HOST=\$\(curl\ http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_host\ -H\ \"Metadata-Flavor:\ Google\"\)$'\n'$'\n'cat\ \>\ /opt/webapp/.env.development\ \<\<\ EOF$'\n'PORT=8080$'\n'HOST=\"localhost\"$'\n'DB_DIALECT=\"mysql\"$'\n'DB_NAME=\$DB_NAME$'\n'DB_USER=\$DB_USER$'\n'DB_PASSWORD=\$DB_PASSWORD\ $'\n'DB_HOST=\$DB_HOST$'\n'$'\n'GCLOUD_PROJECT_ID=\"csye6225-cloud-dev-415002\"$'\n'$'\n'EMAIL_VERIFICATION_TIMEOUT\ =\ 300000$'\n'EOF$'\n'$'\n'sudo\ systemctl\ start\ webapp.service$'\n'
+
+        # run: |
+        #   gcloud compute instance-templates create ${{ env.TEMPLATE_NAME }} \
+        #     --instance-template-region=${{ secrets.REGION }} \
+        #     --region=${{ secrets.REGION }} \
+        #     --machine-type=${{ secrets.MACHINE_TYPE }} \
+        #     --image= ${{ steps.build.outputs.image_name }} \
+        #     --boot-disk-size=${{ secrets.DISK_SIZE_GB }} \
+        #     --boot-disk-type=${{ secrets.DISK_TYPE }} \
+        #     --boot-disk-kms-key=$KMS_KEY_SELF_LINK
+        #     --network=${{ secrets.NETWORK }} \
+        #     --subnet=${{ secrets.SUBNETWORK }} \
+        #     --service-account=${{ secrets.SERVICE_ACCOUNT_EMAIL }} \
+        #     --scopes=https://www.googleapis.com/auth/cloud-platform
+        #     --tags=${{ secrets.TAGS }} \
+        #     --metadata=db_host=10.95.0.23,db_name=webapp,db_password=:CxFnB\{Xx\]Hhl\}\>F,db_user=webapp,startup-script=\#\!/bin/bash$'\n'$'\n'DB_NAME=\$\(curl\ http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_name\ -H\ \"Metadata-Flavor:\ Google\"\)$'\n'DB_USER=\$\(curl\ http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_user\ -H\ \"Metadata-Flavor:\ Google\"\)$'\n'DB_PASSWORD=\$\(curl\ http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_password\ -H\ \"Metadata-Flavor:\ Google\"\)$'\n'DB_HOST=\$\(curl\ http://metadata.google.internal/computeMetadata/v1/instance/attributes/db_host\ -H\ \"Metadata-Flavor:\ Google\"\)$'\n'$'\n'cat\ \>\ /opt/webapp/.env.development\ \<\<\ EOF$'\n'PORT=8080$'\n'HOST=\"localhost\"$'\n'DB_DIALECT=\"mysql\"$'\n'DB_NAME=\$DB_NAME$'\n'DB_USER=\$DB_USER$'\n'DB_PASSWORD=\$DB_PASSWORD\ $'\n'DB_HOST=\$DB_HOST$'\n'$'\n'GCLOUD_PROJECT_ID=\"csye6225-cloud-dev-415002\"$'\n'$'\n'EMAIL_VERIFICATION_TIMEOUT\ =\ 300000$'\n'EOF$'\n'$'\n'sudo\ systemctl\ start\ webapp.service$'\n'
 
       - name: Update managed instance group to use new template
         run: |
